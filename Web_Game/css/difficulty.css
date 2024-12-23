@@ -1,0 +1,117 @@
+/* Reset default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    overflow: hidden;  /* Prevent scrolling */
+}
+
+h1 {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 2.5rem;
+    z-index: 10;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.difficulty-container {
+    width: 100vw;
+    height: 100vh;
+}
+
+.difficulty-options {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+.difficulty-item {
+    position: relative;
+    flex: 1;
+    height: 100%;
+    overflow: hidden;
+}
+
+.difficulty-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+/* Darken the image slightly to make button more visible */
+.difficulty-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 1;
+    transition: background-color 0.3s ease;
+}
+
+.difficulty-item:hover::before {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.difficulty-item:hover img {
+    transform: scale(1.05);
+}
+
+.difficulty-item button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 1rem 2.5rem;
+    font-size: 1.2rem;
+    border: 2px solid white;
+    border-radius: 25px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    cursor: pointer;
+    z-index: 2;
+    transition: all 0.3s ease;
+}
+
+.difficulty-item button:hover {
+    background-color: white;
+    color: black;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .difficulty-options {
+        flex-direction: column;
+    }
+    
+    h1 {
+        font-size: 2rem;
+    }
+    
+    .difficulty-item button {
+        padding: 0.8rem 2rem;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.8rem;
+    }
+    
+    .difficulty-item button {
+        padding: 0.6rem 1.5rem;
+        font-size: 0.9rem;
+    }
+}
