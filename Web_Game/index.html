@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web Game - Landing Page</title>
+  <link rel="stylesheet" href="style.css">
+
+  
+
+</head>
+<body>
+  <div class="container">
+    <h1>Let the fun begin</h1>
+    <form id="playerForm">
+      <div class="player-input">
+        <label for="player1Name">Player 1 Name:</label>
+        <input type="text" id="player1Name" placeholder="Enter Player 1 Name">
+        <label for="player1Gender">Gender:</label>
+        <select id="player1Gender">
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
+      </div>
+      
+      <div class="player-input">
+        <label for="player2Name">Player 2 Name:</label>
+        <input type="text" id="player2Name" placeholder="Enter Player 2 Name">
+        <label for="player2Gender">Gender:</label>
+        <select id="player2Gender">
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
+      </div>
+      
+      <button type="button" id="startGame">Start Game</button>
+    </form>
+  </div>
+
+  <audio id="bgMusic" src="assets/audio/bg2.mp3" loop></audio>
+  <audio id="clickSound" src="assets/audio/cameraclick.wav"></audio>
+  <script src="js/script.js"></script>
+</body>
+</html>

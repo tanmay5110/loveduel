@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Difficulty Selection</title>
+  <link rel="stylesheet" href="css/difficulty.css">
+</head>
+<body>
+  <div class="difficulty-container">
+    <h1>Select Difficulty</h1>
+    <div class="difficulty-options">
+      <!-- Easy -->
+      <div class="difficulty-item">
+        <img src="assets/images/easy.jpeg" alt="Easy Mode" id="easyButton">
+        <button onclick="selectDifficulty('easy')">Easy</button>
+      </div>
+
+      <!-- Medium -->
+      <div class="difficulty-item">
+        <img src="assets/images/medium.jpeg" alt="Medium Mode" id="mediumButton">
+        <button onclick="selectDifficulty('medium')">Medium</button>
+      </div>
+
+      <!-- Hard -->
+      <div class="difficulty-item">
+        <img src="assets/images/hard.jpeg" alt="Hard Mode" id="hardButton">
+        <button onclick="selectDifficulty('hard')">Hard</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/difficulty.js"></script>
+</body>
+</html>
