@@ -1,0 +1,38 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Reaction Test Game</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/reaction_test.css">
+</head>
+<body>
+    <div class="reaction-test-container">
+        <h1 class="animate__animated animate__fadeIn">Reaction Test Challenge</h1>
+        <div id="playerIndicator" class="player-indicator animate__animated animate__fadeIn">Player 1's Turn</div>
+        
+        <div class="scores-container animate__animated animate__fadeIn">
+            <div id="player1Score" class="player-score active">
+                <h3>Player 1</h3>
+                <div id="player1Time">---</div>
+            </div>
+            <div id="player2Score" class="player-score">
+                <h3>Player 2</h3>
+                <div id="player2Time">---</div>
+            </div>
+        </div>
+
+        <div class="signal-container">
+            <div id="signalLight" class="signal-light red"></div>
+        </div>
+        
+        <div id="message" class="message">Ready to Test Your Reflexes?</div>
+        
+        <div class="button-container">
+            <button id="startButton" class="start-button animate__animated animate__fadeIn">Start Test</button>
+            <button id="clickButton" style="display: none;">Click When Green!</button>
+        </div>
+    </div>
+    <script src="js/reaction_test.js"></script>
+</body>
+</html>
