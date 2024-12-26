@@ -1,55 +1,176 @@
+
+@keyframes neonPulse {
+    0% { filter: brightness(1) drop-shadow(0 0 5px currentColor); }
+    50% { filter: brightness(1.5) drop-shadow(0 0 15px currentColor); }
+    100% { filter: brightness(1) drop-shadow(0 0 5px currentColor); }
+}
+
+@keyframes winningLine {
+    from { stroke-dashoffset: 1000; }
+    to { stroke-dashoffset: 0; }
+}
+
+@keyframes cellPlace {
+    0% { transform: scale(0.5); opacity: 0; }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes victoryPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
 body {
-    font-family: Arial, sans-serif;
-    text-align: center;
+
+background: url('tic.png') no-repeat center center fixed; 
+background-size: cover; /* Ensures the image covers the entire background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
     margin: 0;
-    padding: 0;
-    background-color: #f0f8ff;
 }
 
 #gameContainer {
-    margin: 50px auto;
-    max-width: 400px;
-}
-
-h1 {
-    color: #333;
-    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    align-items: center;    /* Center children horizontally */
+    justify-content: center; /* Center children vertically */
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+    position: relative;
 }
 
 #gameBoard {
     display: grid;
-    grid-template-columns: repeat(3, 100px);
-    gap: 5px;
-    justify-content: center;
+    grid-template-columns: repeat(3, 130px);
+    gap: 12px;
+    margin: 20px 0;
+    position: relative;
 }
 
 .cell {
-    width: 100px;
-    height: 100px;
-    background-color: #ffebcd;
+    height: 130px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    font-size: 60px;
+    font-weight: bold;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 24px;
-    font-weight: bold;
     cursor: pointer;
-    border: 2px solid #333;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
 }
 
-.cell:hover {
-    background-color: #f5deb3;
+.cell:hover:not([data-symbol]) {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+.cell[data-symbol="X"] {
+    animation: cellPlace 0.4s ease-out;
+}
+
+.cell[data-symbol="X"]::before,
+.cell[data-symbol="X"]::after {
+    content: '';
+    position: absolute;
+    width: 80%;
+    height: 8px;
+    background: #ff4444;
+    top: 50%;
+    left: 50%;
+    border-radius: 4px;
+    animation: neonPulse 2s infinite;
+}
+
+.cell[data-symbol="X"]::before {
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.cell[data-symbol="X"]::after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.cell[data-symbol="O"] {
+    animation: cellPlace 0.4s ease-out;
+}
+
+.cell[data-symbol="O"]::before {
+    content: '';
+    position: absolute;
+    width: 70%;
+    height: 70%;
+    border: 8px solid #4444ff;
+    border-radius: 50%;
+    animation: neonPulse 2s infinite;
+}
+
+#winLine {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.win-line {
+    stroke: #00ff00;
+    stroke-width: 8;
+    stroke-linecap: round;
+    stroke-dasharray: 1000;
+    animation: winningLine 1s ease-out forwards, neonPulse 2s infinite;
+}
+
+#currentPlayerDisplay {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    padding: 15px 30px;
+    border-radius: 50px;
+    font-size: 1.3em;
+    margin-bottom: 30px;
+    animation: neonPulse 2s infinite;
 }
 
 #restartBtn {
-    margin-top: 20px;
-    padding: 10px 20px;
-    background-color: #4caf50;
+    background: linear-gradient(45deg, #ff4444, #4444ff);
     color: white;
     border: none;
-    border-radius: 5px;
+    padding: 15px 40px;
+    border-radius: 25px;
+    font-size: 1.2em;
     cursor: pointer;
+    transition: 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-top: 20px;
 }
 
 #restartBtn:hover {
-    background-color: #45a049;
+    transform: translateY(-3px);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+}
+
+.winning-cell {
+    animation: victoryPulse 1s infinite !important;
+}
+
+h1 {
+    color: white;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    margin-bottom: 30px;
+    font-size: 2.5em;
+    text-align: center; /* Center the text */
+    width: 100%; /* Ensure it takes full width for centering */
 }
