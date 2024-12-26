@@ -1,10 +1,13 @@
 // punishment.js
+import { easyChallengesToysi } from './easy.js';
+import { mediumChallenges } from './medium.js';
+import { hardChallenges } from './hard.js';
 
-// Separate configuration for easier maintenance
+// Comprehensive configuration object
 const CONFIG = {
     STORAGE_KEY: 'gameState',
     DEFAULT_REDIRECT: 'index.html',
-    GAME_REDIRECT: 'tictactoe.html',
+    GAME_REDIRECT: 'game.html',
     IMAGES: {
         AVATARS_PATH: 'assets/avatars/',
         EXERCISES_PATH: 'exercises',
@@ -13,102 +16,27 @@ const CONFIG = {
     SOUNDS: {
         TICK: 'assets/sounds/tick.mp3',
         COMPLETE: 'assets/sounds/complete.mp3',
-        BUTTON: 'assets/sounds/button.mp3'
-    }
-};
-// Punishments data structure with proper image paths and descriptions
-const punishments = {
-    male: {
-        easy: [
-            { 
-                task: "Do 10 push-ups",
-                description: "Keep your body straight and lower yourself until your chest nearly touches the ground",
-                time: 45,
-                image:'assets/images/dog.jpeg'
-            },
-            { 
-                task: "Sing a song loudly",
-                description: "Choose your favorite song and sing it with enthusiasm!",
-                time: 30,
-                image: `${CONFIG.IMAGES.ACTIVITIES_PATH}/sing.jpeg`
-            }
-        ],
-        medium: [
-            { 
-                task: "Do 20 push-ups",
-                description: "Maintain proper form throughout the exercise",
-                time: 60,
-                image: `${CONFIG.IMAGES.EXERCISES_PATH}/pushups.png`
-            },
-            { 
-                task: "Recite a tongue twister 3 times",
-                description: "Say 'She sells seashells by the seashore' three times fast",
-                time: 45,
-                image: `${CONFIG.IMAGES.ACTIVITIES_PATH}/tongue-twister.png`
-            }
-        ],
-        hard: [
-            { 
-                task: "Do 30 push-ups",
-                description: "Take short breaks if needed, but complete all repetitions",
-                time: 90,
-                image: `${CONFIG.IMAGES.EXERCISES_PATH}/pushups.png`
-            },
-            { 
-                task: "Imitate 3 different animals",
-                description: "Choose three different animals and imitate their sounds and movements",
-                time: 60,
-                image: `${CONFIG.IMAGES.ACTIVITIES_PATH}/animals.png`
-            }
+        BUTTON: 'assets/sounds/button.mp3',
+        BACKGROUND_MUSIC: [
+            'assets/music/bgm1.mp3',
+            'assets/music/bgm2.mp3',
+            'assets/music/bgm3.mp3'
         ]
     },
-    female: {
-        easy: [
-            { 
-                task: "Do 10 squats",
-                description: "Keep your back straight and feet shoulder-width apart",
-                time: 45,
-                image: `${CONFIG.IMAGES.EXERCISES_PATH}/squats.png`
-            },
-            { 
-                task: "Clap a rhythm pattern",
-                description: "Create and perform a unique rhythm pattern using claps",
-                time: 30,
-                image: `${CONFIG.IMAGES.ACTIVITIES_PATH}/clapping.png`
-            }
-        ],
-        medium: [
-            { 
-                task: "Do 20 squats",
-                description: "Maintain proper form and pace yourself",
-                time: 60,
-                image: `${CONFIG.IMAGES.EXERCISES_PATH}/squats.png`
-            },
-            { 
-                task: "Sing while jumping",
-                description: "Jump in place while singing your favorite chorus",
-                time: 45,
-                image: `${CONFIG.IMAGES.ACTIVITIES_PATH}/sing-jump.png`
-            }
-        ],
-        hard: [
-            { 
-                task: "Do 30 squats",
-                description: "Take short breaks if needed, but complete all repetitions",
-                time: 90,
-                image: `${CONFIG.IMAGES.EXERCISES_PATH}/squats.png`
-            },
-            { 
-                task: "Imitate a celebrity",
-                description: "Choose a famous celebrity and imitate their signature moves or catchphrases",
-                time: 60,
-                image: `${CONFIG.IMAGES.ACTIVITIES_PATH}/celebrity.png`
-            }
-        ]
+    ANIMATION: {
+        CONFETTI_DURATION: 5000,
+        CONFETTI_COUNT: 100
     }
 };
 
-// Add SoundManager class
+// Combine all challenges
+const challenges = {
+    easy: easyChallengesToysi,
+    medium: mediumChallenges,
+    hard: hardChallenges
+};
+
+// Enhanced Sound Manager Class
 class SoundManager {
     constructor() {
         this.sounds = {
@@ -116,40 +44,95 @@ class SoundManager {
             complete: new Audio(CONFIG.SOUNDS.COMPLETE),
             button: new Audio(CONFIG.SOUNDS.BUTTON)
         };
+        this.backgroundMusic = null;
         this.isMuted = false;
         this.initialize();
     }
 
     initialize() {
+        // Initialize sound effects
         Object.values(this.sounds).forEach(sound => {
             sound.load();
             sound.volume = 0.5;
         });
+
+        // Initialize background music
+        this.initializeBackgroundMusic();
         this.addSoundToggle();
+    }
+
+    initializeBackgroundMusic() {
+        const randomMusicPath = CONFIG.SOUNDS.BACKGROUND_MUSIC[
+            Math.floor(Math.random() * CONFIG.SOUNDS.BACKGROUND_MUSIC.length)
+        ];
+        this.backgroundMusic = new Audio(randomMusicPath);
+        this.backgroundMusic.loop = true;
+        this.backgroundMusic.volume = 0.3;
+
+        // Handle audio context autoplay restrictions
+        document.addEventListener('click', () => {
+            if (!this.isMuted && this.backgroundMusic.paused) {
+                this.startBackgroundMusic();
+            }
+        }, { once: true });
     }
 
     addSoundToggle() {
         const soundToggle = document.createElement('div');
         soundToggle.className = 'sound-wave';
+        soundToggle.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="sound-icon">
+                <path d="M11 5L6 9H2v6h4l5 4V5z"></path>
+                <path class="sound-wave" d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+            </svg>
+        `;
         soundToggle.addEventListener('click', () => this.toggleMute());
         document.body.appendChild(soundToggle);
     }
 
     toggleMute() {
         this.isMuted = !this.isMuted;
-        document.querySelector('.sound-wave').classList.toggle('muted', this.isMuted);
+        const soundToggle = document.querySelector('.sound-wave');
+        soundToggle.classList.toggle('muted', this.isMuted);
+        
+        if (this.isMuted) {
+            this.backgroundMusic?.pause();
+        } else {
+            this.startBackgroundMusic();
+        }
+        
+        Object.values(this.sounds).forEach(sound => {
+            sound.muted = this.isMuted;
+        });
     }
 
     play(soundName) {
         if (!this.isMuted && this.sounds[soundName]) {
             this.sounds[soundName].currentTime = 0;
-            this.sounds[soundName].play().catch(err => console.log('Audio play failed:', err));
+            this.sounds[soundName].play().catch(err => {
+                console.log(`Audio play failed for ${soundName}:`, err);
+            });
+        }
+    }
+
+    startBackgroundMusic() {
+        if (!this.isMuted && this.backgroundMusic) {
+            this.backgroundMusic.play().catch(err => {
+                console.log('Background music play failed:', err);
+            });
+        }
+    }
+
+    stopBackgroundMusic() {
+        if (this.backgroundMusic) {
+            this.backgroundMusic.pause();
+            this.backgroundMusic.currentTime = 0;
         }
     }
 }
 
-
-// Add ConfettiManager class
+// Enhanced Confetti Manager Class
 class ConfettiManager {
     constructor() {
         this.container = null;
@@ -167,7 +150,7 @@ class ConfettiManager {
     }
 
     createConfetti() {
-        for (let i = 0; i < 100; i++) {
+        for (let i = 0; i < CONFIG.ANIMATION.CONFETTI_COUNT; i++) {
             const confetti = document.createElement('div');
             confetti.className = 'confetti';
             confetti.style.left = Math.random() * 100 + 'vw';
@@ -183,11 +166,11 @@ class ConfettiManager {
         setTimeout(() => {
             this.container.style.display = 'none';
             this.container.innerHTML = '';
-        }, 5000);
+        }, CONFIG.ANIMATION.CONFETTI_DURATION);
     }
 }
 
-
+// Main Game Class
 class PunishmentGame {
     constructor() {
         this.currentCountdown = null;
@@ -195,6 +178,7 @@ class PunishmentGame {
         this.currentPunishment = null;
         this.soundManager = new SoundManager();
         this.confettiManager = new ConfettiManager();
+        this.isTimerStarted = false;
     }
 
     init() {
@@ -202,6 +186,7 @@ class PunishmentGame {
             this.loadGameState();
             this.startPunishment();
             this.setupEventListeners();
+            // Background music will start on first user interaction
         } catch (error) {
             console.error('Initialization error:', error);
             this.handleError('Failed to initialize game');
@@ -226,7 +211,7 @@ class PunishmentGame {
     }
 
     getRandomPunishment(gender, difficulty) {
-        const options = punishments[gender.toLowerCase()]?.[difficulty.toLowerCase()];
+        const options = challenges[difficulty.toLowerCase()]?.[gender.toLowerCase()];
         if (!options || options.length === 0) {
             throw new Error('Invalid gender or difficulty level');
         }
@@ -241,7 +226,7 @@ class PunishmentGame {
         );
 
         this.updateUI(currentPlayer);
-        this.startTimer();
+        this.setupTimer();
     }
 
     updateUI(currentPlayer) {
@@ -253,18 +238,16 @@ class PunishmentGame {
         const playerInfo = document.getElementById('playerInfo');
         if (!playerInfo) return;
 
+        const giphyEmbed = player.gender.toLowerCase() === 'male' 
+            ? '<iframe src="https://giphy.com/embed/dzQ3eSI5SpeHsJ06rW" width="120" height="120" frameBorder="0" class="giphy-embed"></iframe>'
+            : '<iframe src="https://giphy.com/embed/JsETE2464QtDPz5CWR" width="120" height="120" frameBorder="0" class="giphy-embed"></iframe>';
+
         playerInfo.innerHTML = `
-             <div class="player-card">
-            <video 
-                class="player-video" 
-                autoplay 
-                loop 
-                muted
-                style="width: 100px; height: 100px;">
-                <source src="${CONFIG.IMAGES.AVATARS_PATH}/${player.gender.toLowerCase()}.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-            <h2>${this.sanitizeHTML(player.name)}</h2>
+            <div class="player-card animate__animated animate__fadeIn">
+                <div class="avatar-container">
+                    ${giphyEmbed}
+                </div>
+                <h2>${this.sanitizeHTML(player.name)}</h2>
                 <span class="player-badge ${this.gameState.difficulty.toLowerCase()}">
                     ${this.gameState.difficulty}
                 </span>
@@ -276,44 +259,71 @@ class PunishmentGame {
         const punishmentDisplay = document.getElementById('punishmentDisplay');
         if (!punishmentDisplay) return;
 
+        const imageHTML = this.currentPunishment.image ? 
+            `<img src="${this.currentPunishment.image}" alt="challenge" class="punishment-icon">` : 
+            '';
+
         punishmentDisplay.innerHTML = `
-            <div class="punishment-card">
-                <img src="${this.currentPunishment.image}" 
-                     alt="punishment" 
-                     class="punishment-icon">
+            <div class="punishment-card animate__animated animate__fadeIn">
+                ${imageHTML}
                 <h3>${this.sanitizeHTML(this.currentPunishment.task)}</h3>
                 <p class="description">${this.sanitizeHTML(this.currentPunishment.description)}</p>
             </div>
         `;
     }
 
-    startTimer() {
+    setupTimer() {
         const timerDisplay = document.getElementById('timerDisplay');
         if (!timerDisplay) return;
 
         if (this.currentPunishment.time > 0) {
-            let timeRemaining = this.currentPunishment.time;
             timerDisplay.style.display = 'block';
+            this.updateTimerDisplay(timerDisplay, this.currentPunishment.time);
             
-            this.currentCountdown = setInterval(() => {
-                this.soundManager.play('tick');
-                this.updateTimerDisplay(timerDisplay, timeRemaining);
-                if (--timeRemaining < 0) {
-                    this.handleTimerComplete(timerDisplay);
-                }
-            }, 1000);
+            // Add click event listener to the timer circle
+            const timerCircle = timerDisplay.querySelector('.timer-circle');
+            if (timerCircle) {
+                timerCircle.addEventListener('click', () => {
+                    if (!this.isTimerStarted) {
+                        this.startTimerCountdown(this.currentPunishment.time);
+                        this.isTimerStarted = true;
+                    }
+                });
+            }
         } else {
             timerDisplay.style.display = 'none';
         }
     }
 
+    startTimerCountdown(duration) {
+        let timeRemaining = duration;
+        const timerDisplay = document.getElementById('timerDisplay');
+        
+        // Clear any existing countdown
+        if (this.currentCountdown) {
+            clearInterval(this.currentCountdown);
+        }
+
+        this.currentCountdown = setInterval(() => {
+            this.soundManager.play('tick');
+            timeRemaining--;
+            
+            if (timeRemaining >= 0) {
+                this.updateTimerDisplay(timerDisplay, timeRemaining);
+            } else {
+                this.handleTimerComplete(timerDisplay);
+            }
+        }, 1000);
+    }
+
     updateTimerDisplay(timerDisplay, timeRemaining) {
         timerDisplay.innerHTML = `
-            <div class="timer">
+            <div class="timer-container">
                 <div class="timer-circle">
                     <span>${timeRemaining}</span>
                 </div>
                 <p>seconds remaining</p>
+                ${!this.isTimerStarted ? '<p class="timer-instruction">Click timer to start</p>' : ''}
             </div>
         `;
     }
@@ -322,31 +332,33 @@ class PunishmentGame {
         clearInterval(this.currentCountdown);
         this.soundManager.play('complete');
         this.confettiManager.celebrate();
+        
         timerDisplay.innerHTML = `
-            <div class="timer completed">
-                <span>Time's Up!</span>
+            <div class="timer-container">
+                <div class="timer-circle completed">
+                    <span>Done!</span>
+                </div>
+                <p>Challenge Complete!</p>
             </div>
         `;
     }
-    
-   
+
     completePunishment() {
         if (this.currentCountdown) {
             clearInterval(this.currentCountdown);
         }
 
         try {
+            // Switch to the next player
+            this.gameState.currentPlayer = this.gameState.currentPlayer === 1 ? 2 : 1;
             localStorage.setItem(CONFIG.STORAGE_KEY, JSON.stringify(this.gameState));
 
-            // Get the previous page URL from the referrer
-            const previousPage = document.referrer; 
+            // Stop background music
+            this.soundManager.stopBackgroundMusic();
 
-            // Redirect to the previous page if available, otherwise go to the game page
-            if (previousPage) {
-                window.location.href = previousPage; 
-            } else {
-                window.location.href = CONFIG.GAME_REDIRECT; 
-            }
+            // Get the previous page URL from the referrer
+            const previousPage = document.referrer || CONFIG.GAME_REDIRECT;
+            window.location.href = previousPage;
         } catch (error) {
             console.error('Error saving game state:', error);
             this.handleError('Failed to save game progress');
@@ -354,9 +366,24 @@ class PunishmentGame {
     }
 
     setupEventListeners() {
-        document.getElementById('completePunishmentBtn')?.addEventListener('click', 
-            () => this.completePunishment()
-        );
+        document.getElementById('completePunishmentBtn')?.addEventListener('click', () => {
+            this.soundManager.play('button');
+            this.completePunishment();
+        });
+
+        document.getElementById('changeMiniGameBtn')?.addEventListener('click', () => {
+            this.soundManager.play('button');
+            window.location.href = "selection.html";
+        });
+
+        // Handle page visibility change
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                this.soundManager.stopBackgroundMusic();
+            } else {
+                this.soundManager.startBackgroundMusic();
+            }
+        });
     }
 
     handleError(message) {
@@ -375,6 +402,4 @@ class PunishmentGame {
 document.addEventListener('DOMContentLoaded', () => {
     const game = new PunishmentGame();
     game.init();
-
-    
 });
