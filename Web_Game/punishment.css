@@ -1,18 +1,27 @@
 /* punishment.css */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
 :root {
-  --primary-color: rgba(225, 143, 143, 0.8);  /* Faded red */
-  --primary-dark: rgba(207, 57, 57, 0.9);   /* Darker faded red */
-  --secondary-color: rgba(33, 33, 33, 0.85); /* Faded black */
-  --accent-color: rgba(255, 82, 82, 0.7);   /* Faded bright red */
-  --danger-color: rgba(244, 67, 54, 0.8);   /* Faded red */
-  --background-color: rgba(18, 18, 18, 0.65); /* More transparent black */
-  --card-color: rgba(30, 30, 30, 0.75);     /* Transparent dark */
-  --text-color: rgba(182, 67, 67, 0.9);   /* Slightly faded white */
-  --text-light: rgba(205, 182, 182, 0.8);   /* Faded light grey */
-  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.2);
-  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.3);
+  --primary-dark: #1a0f0f;
+  --primary-red: #8B0000;
+  --accent-pink: #FF69B4;
+  --deep-red: #3D0C0C;
+  --light-pink: rgba(255, 182, 193, 0.1);
+  --text-light: #FFE4E1;
+  --text-dark: #2D0A0A;
+  --gradient-primary: linear-gradient(135deg, var(--deep-red), var(--primary-red));
+  --gradient-card: linear-gradient(145deg, rgba(59, 13, 13, 0.9), rgba(139, 0, 0, 0.8));
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.5);
+  --border-radius: 15px;
+}
+
+/* Reset and Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
@@ -20,302 +29,217 @@ body {
   padding: 0;
   min-height: 100vh;
   font-family: 'Poppins', sans-serif;
-  background: url("assets/images/punish.jpeg");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  color: var(--text-color);
+  background: var(--primary-dark);
+  color: var(--text-light);
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
+  position: relative;
+  overflow-x: hidden;
 }
 
-/* CSS to change the color of the Challenge Time text */
-h1 {
-  color: #b4aaaa; /* Change this to your desired color (e.g., red) */
-  font-size: 36px; /* Adjust font size if needed */
-  font-weight: bold; /* Make the text bold if desired */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url("assets/images/punish.jpeg") center/cover no-repeat;
+  opacity: 0.15;
+  z-index: -1;
 }
 
-.player-name {
-  font-size: 1.5em; /* Adjust font size */
-  font-weight: bold; /* Make the text bold */
-  color: #ffffff; /* Change text color */
-  margin: 5px 0; /* Add margin for spacing */
-  text-align: center; /* Center align the text */
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Optional: Add a shadow for better visibility */
-}
-
-/* Difficulty badge */
-.player-badge {
-  font-size: 1em; /* Adjust font size */
-  font-weight: bold; /* Make the text bold */
-  color: #ffffff; /* Change text color */
-  background-color: rgba(0, 0, 0, 0.5); /* Optional: Add a background color */
-  border-radius: 5px; /* Rounded corners for the badge */
-  padding: 5px 10px; /* Padding around the text */
-  margin-top: 5px; /* Space above the badge */
-  display: inline-block; /* Make it inline-block for proper spacing */
-}
-
-/* Center-aligned punishment section */
+/* Main Container */
 #punishmentSection {
-  background: linear-gradient(135deg, 
-    rgba(18, 18, 18, 0.75),
-    rgba(33, 33, 33, 0.65));
-  border-radius: 16px;
-  padding: 2rem;
-  width: 85%;
-  max-width: 500px;
+  background: rgba(26, 15, 15, 0.85);
+  backdrop-filter: blur(10px);
+  border-radius: var(--border-radius);
+  border: 1px solid rgba(139, 0, 0, 0.3);
+  padding: 2.5rem;
+  width: 90%;
+  max-width: 550px;
   box-shadow: var(--shadow-lg);
-  backdrop-filter: blur(12px);
-  margin: 1.5rem auto;
-  text-align: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin: 2rem;
+  animation: fadeIn 0.8s ease-out;
+}
+
+/* Player Card Styles */
+.player-card {
+  background: var(--gradient-card);
+  border-radius: var(--border-radius);
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow-md);
+  transform: translateY(0);
+  transition: all 0.3s ease;
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-align: center;
 }
-
-#punishmentSection:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.4);
-}
-
-/* Centered player card */
-/* Centered player card */
-  .player-card {
-    background: linear-gradient(145deg, 
-      rgba(211, 47, 47, 0.7),
-      rgba(183, 28, 28, 0.8));
-    border-radius: 15px; /* Set rounded corners */
-    padding: 1rem; /* Adjust padding for better spacing */
-    margin: 0 auto; /* Center the card horizontally */
-    color: white;
-    width: 190px; /* Set a fixed width for the card */
-    height: auto; /* Allow height to adjust based on content */
-    box-shadow: var(--shadow-md);
-    transition: all 0.3s ease;
-    text-align: center;
-    display: flex; /* Use flexbox for alignment */
-    flex-direction: column; /* Stack elements vertically */
-    align-items: center; /* Center align items */
-  }
 
 .player-card:hover {
-  transform: scale(1.02);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
 }
 
-/* Avatar adjustments */
-.player-avatar {
-  text-align: center;
-  margin-bottom: 10px;
-}
-
-.player-avatar video {
-  max-width: 150px;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-/* Player video */
-/* Player video */
-.player-video {
-  width: 100px; /* Set a fixed width for the video */
-  height: auto; /* Maintain aspect ratio */
-  margin-bottom: 10px; /* Space below the video */
-  
-  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for hover effect */
-}
-
-/* Highlight effect on hover */
-.player-video:hover {
-  transform: scale(1.05); /* Slightly enlarge the video on hover */
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5); /* Increase shadow on hover */
-}
-.player-info {
-  text-align: center;
-  font-size: 1.2em;
-  font-weight: bold;
-  margin-bottom: 20px;
-}
-
-
-/* Optional hover effect */
-.player-avatar:hover .avatar-video {
-  transform: translate(-50%, -50%) scale(1.1);
+/* Avatar Container */
+.avatar-container {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 1.5rem;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid rgba(255, 105, 180, 0.3);
+  box-shadow: var(--shadow-md);
   transition: transform 0.3s ease;
 }
 
-/* Timer circle */
-.timer-circle {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  background: conic-gradient(
-    var(--accent-color) var(--progress, 100%),
-    var(--secondary-color) var(--progress, 100%)
-  );
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 1.8rem;
-  margin: 0 auto 1rem;
-  box-shadow: var(--shadow-md);
-  position: relative;
-  transition: all 0.3s ease;
-  animation: pulse 2s infinite;
-  color: #08f6e2;
+.avatar-container:hover {
+  transform: scale(1.05);
+  border-color: var(--accent-pink);
 }
 
-.timer-circle::before {
-  content: '';
-  position: absolute;
-  width: 85%;
-  height: 85%;
-  background: linear-gradient(145deg,
-    rgba(186, 140, 140, 0.9),
-    rgba(104, 37, 37, 0.8));
-  border-radius: 50%;
+.avatar-container iframe {
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* Player Information */
+.player-card h2 {
+  color: var(--text-light);
+  font-size: 1.8rem;
+  margin: 0.5rem 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.player-badge {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  background: rgba(255, 105, 180, 0.15);
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 0.5rem;
+}
+
+/* Punishment Card */
+.punishment-card {
+  background: rgba(61, 12, 12, 0.7);
+  border-radius: var(--border-radius);
+  padding: 2rem;
+  margin: 1.5rem 0;
+  box-shadow: var(--shadow-md);
+}
+
+.punishment-card h3 {
+  color: var(--accent-pink);
+  font-size: 1.6rem;
+  margin: 0 0 1rem;
+}
+
+.punishment-card .description {
+  color: var(--text-light);
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.punishment-icon {
+  max-width: 150px;
+  height: auto;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+}
+
+/* Timer Styles */
+.timer-container {
+  margin: 2rem 0;
+  text-align: center;
+}
+
+.timer-circle {
+  cursor: pointer;
   transition: all 0.3s ease;
+  width: 120px;
+  height: 120px;
+  background: var(--gradient-primary);
+  border-radius: 50%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: var(--text-light);
+  box-shadow: var(--shadow-md);
+  position: relative;
+  animation: pulseGlow 2s infinite;
 }
 
 .timer-circle:hover {
   transform: scale(1.05);
-  box-shadow: 0 0 20px rgba(211, 47, 47, 0.3);
+  box-shadow: 0 0 15px rgba(255, 105, 180, 0.3);
 }
 
-/* Complete challenge button */
-#completePunishmentBtn {
-  background: linear-gradient(145deg,
-    var(--primary-color),
-    var(--primary-dark));
-  color: white;
+.timer-instruction {
+  font-size: 0.8rem;
+  color: var(--text-light);
+  opacity: 0.8;
+  text-align: center;
+  margin-top: 0.5rem;
+  animation: pulse 1.5s infinite;
+}
+
+.timer-circle.completed {
+  background: linear-gradient(145deg, var(--accent-pink), var(--primary-red));
+}
+
+/* Sound Control Styles */
+.sound-wave {
+  position: fixed;}
+
+/* .timer-circle p {
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  opacity: 0.8;
+} */
+
+/* Button Styles */
+.action-buttons {
+  display: grid;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.action-button {
+  background: var(--gradient-primary);
+  color: var(--text-light);
   border: none;
-  border-radius: 8px;
-  padding: 1rem 2rem;
-  font-size: 1rem;
+  border-radius: var(--border-radius);
+  padding: 1rem;
+  font-size: 1.1rem;
   font-weight: 600;
   cursor: pointer;
-  width: 100%;
-  max-width: 250px;
-  margin: 1rem auto;
-  position: relative;
-  overflow: hidden;
   transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
-#completePunishmentBtn::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  transition: width 0.6s ease, height 0.6s ease;
+.action-button:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  background: linear-gradient(145deg, var(--primary-red), var(--deep-red));
 }
 
-#completePunishmentBtn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 15px rgba(211, 47, 47, 0.4);
-  background: linear-gradient(145deg,
-    var(--primary-dark),
-    var(--accent-color));
+.action-button:active {
+  transform: translateY(0);
 }
 
-#completePunishmentBtn:hover::before {
-  width: 300px;
-  height: 300px;
-}
-
-#completePunishmentBtn:active {
-  transform: translateY(1px);
-}
-
-/* Animations */
-@keyframes pulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(211, 47, 47, 0.4);
-  }
-  70% {
-    box-shadow: 0 0 0 10px rgba(211, 47, 47, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(211, 47, 47, 0);
-  }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Container for the punishment card */
-.punishment-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* Center align items */
-  justify-content: center; /* Center content vertically */
-  border: 2px solid #ccc; /* Optional: Add a border */
-  border-radius: 10px; /* Rounded corners */
-  padding: 20px; /* Padding around the content */
-  background-color: #f9f9f9; /* Light background color */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-  margin: 20px; /* Margin around the card */
-}
-
-/* Style for the punishment image */
-.punishment-icon {
-  width: 150px; /* Set a fixed width */
-  height: auto; /* Maintain aspect ratio */
-  border-radius: 10px; /* Optional: Rounded corners for the image */
-  margin-bottom: 15px; /* Space below the image */
-}
-
-/* Style for the punishment task and description */
-.punishment-card h3 {
-  font-size: 1.5em; /* Font size for the task */
-  margin: 10px 0; /* Margin above and below the task */
-  text-align: center; /* Center align text */
-}
-
-.punishment-card .description {
-  font-size: 1em; /* Font size for the description */
-  text-align: center; /* Center align text */
-  color: #555; /* Darker color for the description */
-}
-
-/* Responsive adjustments */
-@media (max-width: 640px) {
-  #punishmentSection {
-    padding: 1.5rem;
-    width: 90%;
-  }
-
-  .timer-circle {
-    width: 80px;
-    height: 80px;
-    font-size: 1.4rem;
-  }
-
-  #completePunishmentBtn {
-    padding: 0.8rem 1.5rem;
-    font-size: 0.9rem;
-  }
-}
-
-/* Confetti container adjustments */
+/* Confetti Styles */
 .confetti-container {
   position: fixed;
   top: 0;
@@ -331,17 +255,149 @@ h1 {
   position: absolute;
   width: 10px;
   height: 10px;
-  background-color: var(--accent-color);
+  background-color: var(--accent-pink);
   opacity: 0;
+}
+
+/* Sound Controls */
+.sound-wave {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+.sound-wave:hover {
+  opacity: 1;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulseGlow {
+  0% {
+    box-shadow: 0 0 0 0 rgba(139, 0, 0, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 15px rgba(139, 0, 0, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(139, 0, 0, 0);
+  }
 }
 
 @keyframes confetti-fall {
   0% {
-    transform: translateY(-100vh);
+    transform: translateY(-100vh) rotate(0deg);
     opacity: 1;
   }
   100% {
-    transform: translateY(100vh);
+    transform: translateY(100vh) rotate(360deg);
     opacity: 0;
+  }
+}
+
+/* Difficulty Badge Colors */
+.easy {
+  background: rgba(76, 175, 80, 0.2);
+}
+
+.medium {
+  background: rgba(255, 152, 0, 0.2);
+}
+
+.hard {
+  background: rgba(244, 67, 54, 0.2);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  #punishmentSection {
+    padding: 1.5rem;
+    margin: 1rem;
+    width: 95%;
+  }
+
+  .player-card {
+    padding: 1.5rem;
+  }
+
+  .avatar-container {
+    width: 100px;
+    height: 100px;
+  }
+
+  .player-card h2 {
+    font-size: 1.5rem;
+  }
+
+  .punishment-card {
+    padding: 1.5rem;
+  }
+
+  .punishment-card h3 {
+    font-size: 1.4rem;
+  }
+
+  .punishment-card .description {
+    font-size: 1rem;
+  }
+
+  .timer-circle {
+    width: 100px;
+    height: 100px;
+    font-size: 1.6rem;
+  }
+
+  .action-button {
+    padding: 0.8rem;
+    font-size: 1rem;
+  }
+}
+
+/* Small Screen Adjustments */
+@media (max-width: 480px) {
+  .avatar-container {
+    width: 80px;
+    height: 80px;
+  }
+
+  .player-card h2 {
+    font-size: 1.3rem;
+  }
+
+  .player-badge {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+  }
+
+  .punishment-card h3 {
+    font-size: 1.2rem;
+  }
+
+  .action-button {
+    padding: 0.7rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Dark mode enhancements */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text-light: #FFE4E1;
+    --primary-dark: #0A0404;
   }
 }
