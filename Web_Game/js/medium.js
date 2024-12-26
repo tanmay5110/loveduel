@@ -1,7 +1,7 @@
 // challenges-easy.js
 
 export const mediumChallenges = {
-    male: [
+    female: [
         
         {
             "task": "Be a sexy French maid for the next 5 minutes. I'm sure your partner will love it",
@@ -662,7 +662,7 @@ export const mediumChallenges = {
     
         
     ],
-    female: [
+    male: [
         { 
             task: "Do 10 squats",
             description: "Keep your back straight and feet shoulder-width apart",
