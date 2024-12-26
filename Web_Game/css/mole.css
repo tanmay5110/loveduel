@@ -1,0 +1,245 @@
+@import url("https://fonts.googleapis.com/css?family=Nunito");
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 10px;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  font-family: "Nunito", sans-serif;
+  background: linear-gradient(135deg, #1a1c20 0%, #2d3436 100%);
+  text-align: center;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.game-container {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  width: 95%;
+  max-width: 1200px;
+  margin: 2rem auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 2rem;
+}
+
+.game-info {
+  flex: 1;
+  min-width: 250px;
+}
+
+h1 {
+  font-size: 3.5rem;
+  line-height: 1;
+  margin: 1rem 0;
+  color: #fff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+h2 {
+  font-size: 2.5rem;
+  color: #fff;
+  margin: 1rem 0;
+}
+
+.score {
+  background: rgba(255, 229, 207, 0.2);
+  padding: 0.5rem 2rem;
+  line-height: 1;
+  border-radius: 1rem;
+  color: #fff;
+  display: inline-block;
+  min-width: 80px;
+}
+
+.timer {
+  font-size: 2rem;
+  color: #fff;
+  background: rgba(255, 118, 96, 0.2);
+  padding: 0.5rem 2rem;
+  border-radius: 1rem;
+  display: inline-block;
+  margin: 1rem 0;
+  min-width: 100px;
+}
+
+.game {
+  flex: 2;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 1rem;
+  aspect-ratio: 3/2;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.hole {
+  position: relative;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 50%;
+  overflow: hidden;
+  aspect-ratio: 1;
+}
+
+.hole:after {
+  display: block;
+  background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/1159990/dirt.svg") bottom center no-repeat;
+  background-size: contain;
+  content: "";
+  width: 100%;
+  height: 70px;
+  position: absolute;
+  z-index: 2;
+  bottom: -30px;
+}
+
+.mole {
+  background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/1159990/mole.svg") bottom center no-repeat;
+  background-size: 60%;
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  height: 100%;
+  transition: all 0.4s;
+  cursor: pointer;
+}
+
+.hole.up .mole {
+  top: 0;
+}
+
+#start {
+  font-family: "Nunito", sans-serif;
+  display: inline-block;
+  text-decoration: none;
+  border: 0;
+  background: linear-gradient(135deg, #ff7660 0%, #ff5353 100%);
+  color: #fff;
+  font-size: 1.8rem;
+  padding: 1rem 2rem;
+  cursor: pointer;
+  margin: 1rem 0;
+  border-radius: 50px;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 15px rgba(255, 118, 96, 0.3);
+  width: 80%;
+  max-width: 200px;
+}
+
+#start:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 118, 96, 0.4);
+}
+
+#start:active {
+  transform: translateY(1px);
+}
+
+/* Portrait orientation warning */
+.orientation-warning {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  font-size: 2rem;
+  text-align: center;
+  padding: 2rem;
+}
+
+/* Media Queries */
+@media (max-width: 900px) {
+  .game-container {
+    flex-direction: column;
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .game-info {
+    order: -1;
+  }
+
+  .game {
+    width: 100%;
+    max-width: 600px;
+  }
+
+  h1 {
+    font-size: 2.8rem;
+  }
+
+  h2 {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  html {
+    font-size: 8px;
+  }
+
+  .game-container {
+    margin: 1rem;
+    padding: 1rem;
+  }
+
+  .orientation-warning {
+    display: flex;
+  }
+}
+
+/* Landscape-specific styles */
+@media (orientation: landscape) and (max-height: 600px) {
+  .game-container {
+    flex-direction: row;
+    padding: 1rem;
+    margin: 0.5rem;
+  }
+
+  .game {
+    height: 70vh;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    margin: 0.5rem 0;
+  }
+
+  h2 {
+    font-size: 1.8rem;
+    margin: 0.5rem 0;
+  }
+
+  .timer {
+    margin: 0.5rem 0;
+  }
+
+  #start {
+    padding: 0.8rem 1.5rem;
+    margin: 0.5rem 0;
+  }
+}
