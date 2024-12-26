@@ -3,31 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tic-Tac-Toe Game</title>
+    <title>Ultimate Tic-Tac-Toe</title>
     <link rel="stylesheet" href="css/tictactoe.css">
 </head>
 <body>
     <div id="gameContainer">
-        <!-- Add this somewhere visible in your game interface -->
-<div id="currentPlayerDisplay"></div>
-
-
-
-        <h1>Tic-Tac-Toe</h1>
-        <div id="gameBoard">
-            <div class="cell" id="cell0"></div>
-            <div class="cell" id="cell1"></div>
-            <div class="cell" id="cell2"></div>
-            <div class="cell" id="cell3"></div>
-            <div class="cell" id="cell4"></div>
-            <div class="cell" id="cell5"></div>
-            <div class="cell" id="cell6"></div>
-            <div class="cell" id="cell7"></div>
-            <div class="cell" id="cell8"></div>
+        <div id="gameHeader">
+            <div id="currentPlayerDisplay"></div>
+            <h1>Tic-Tac-Toe</h1>
         </div>
-        <button id="restartBtn">Restart Game</button>
+        <div id="gameBoard">
+            <div class="cell" id="cell0" data-index="0"></div>
+            <div class="cell" id="cell1" data-index="1"></div>
+            <div class="cell" id="cell2" data-index="2"></div>
+            <div class="cell" id="cell3" data-index="3"></div>
+            <div class="cell" id="cell4" data-index="4"></div>
+            <div class="cell" id="cell5" data-index="5"></div>
+            <div class="cell" id="cell6" data-index="6"></div>
+            <div class="cell" id="cell7" data-index="7"></div>
+            <div class="cell" id="cell8" data-index="8"></div>
+           
+        </div>
+        <div id="gameControls">
+            <button id="restartBtn">
+                <span class="btn-text">Restart Game</span>
+                <span class="btn-shine"></span>
+            </button>
+        </div>
     </div>
-
     <script src="js/tictactoe.js"></script>
 </body>
 </html>
