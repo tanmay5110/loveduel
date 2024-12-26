@@ -1,7 +1,7 @@
 // challenges-easy.js
 
 export const hardChallenges= {
-    male: [
+   female: [
         
             {
                 "number": 1,
@@ -907,7 +907,7 @@ export const hardChallenges= {
             image: 'assets/images/sing.jpeg'
         }
     ],
-    female: [
+    male: [
         { 
             task: "Do 10 squats",
             description: "Keep your back straight and feet shoulder-width apart",
