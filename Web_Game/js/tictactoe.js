@@ -15,46 +15,78 @@ document.addEventListener("DOMContentLoaded", () => {
     let gameBoard = ['', '', '', '', '', '', '', '', ''];
     let gameOver = false;
 
-    // Update display to show current player
     updatePlayerDisplay();
 
     function updatePlayerDisplay() {
         const displayElement = document.getElementById('currentPlayerDisplay');
         if (displayElement) {
             displayElement.innerText = `Current Turn: ${currentPlayer.name} (${currentPlayer === player1 ? 'X' : 'O'})`;
+            displayElement.style.color = currentPlayer === player1 ? '#ff4444' : '#4444ff';
         }
     }
 
     function handleClick(cellId) {
         if (gameOver || gameBoard[cellId] !== '') return;
 
-        // Update the game board
         const symbol = currentPlayer === player1 ? 'X' : 'O';
         gameBoard[cellId] = symbol;
-        document.getElementById(`cell${cellId}`).innerText = symbol;
+        const cell = document.getElementById(`cell${cellId}`);
+        cell.setAttribute('data-symbol', symbol);
 
         if (checkWinner()) {
             gameOver = true;
-            // The current player is the winner, so the other player gets punished
             const loser = currentPlayer === player1 ? player2 : player1;
-            alert(`${currentPlayer.name} Wins! ${loser.name} will be punished!`);
             
-            // Update game state with loser's information for punishment
-            gameState.currentPlayer = currentPlayer === player1 ? 2 : 1; // Set to loser's number
-            localStorage.setItem("gameState", JSON.stringify(gameState));
-            
-            // Navigate to punishment page
-            window.location.href = 'punishment.html';
+            setTimeout(() => {
+                alert(`${currentPlayer.name} Wins! ${loser.name} will be punished!`);
+                gameState.currentPlayer = currentPlayer === player1 ? 2 : 1;
+                localStorage.setItem("gameState", JSON.stringify(gameState));
+                window.location.href = 'punishment.html';
+            }, 1500); // Delay to show winning animation
         } else if (!gameBoard.includes('')) {
             gameOver = true;
-            alert("It's a Draw! Both players are safe!");
-            // In case of draw, restart the game
-            restartGame();
+            setTimeout(() => {
+                alert("It's a Draw! Both players are safe!");
+                restartGame();
+            }, 500);
         } else {
-            // Switch turns
             currentPlayer = currentPlayer === player1 ? player2 : player1;
             updatePlayerDisplay();
         }
+    }
+
+    function drawWinningLine(combo) {
+        const cells = combo.map(i => document.getElementById(`cell${i}`));
+        const start = cells[0].getBoundingClientRect();
+        const end = cells[2].getBoundingClientRect();
+        const board = document.getElementById('gameBoard');
+        const boardRect = board.getBoundingClientRect();
+        
+        const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        svg.setAttribute("id", "winLine");
+        svg.style.position = "absolute";
+        svg.style.width = "100%";
+        svg.style.height = "100%";
+        
+        const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+        line.classList.add("win-line");
+        
+        const x1 = start.left - boardRect.left + start.width / 2;
+        const y1 = start.top - boardRect.top + start.height / 2;
+        const x2 = end.left - boardRect.left + end.width / 2;
+        const y2 = end.top - boardRect.top + end.height / 2;
+        
+        line.setAttribute("x1", x1);
+        line.setAttribute("y1", y1);
+        line.setAttribute("x2", x2);
+        line.setAttribute("y2", y2);
+        
+        svg.appendChild(line);
+        board.appendChild(svg);
+        
+        combo.forEach(index => {
+            document.getElementById(`cell${index}`).classList.add('winning-cell');
+        });
     }
 
     function checkWinner() {
@@ -64,18 +96,27 @@ document.addEventListener("DOMContentLoaded", () => {
             [0, 4, 8], [2, 4, 6]             // Diagonals
         ];
 
-        return winningCombinations.some(([a, b, c]) => 
-            gameBoard[a] && 
-            gameBoard[a] === gameBoard[b] && 
-            gameBoard[a] === gameBoard[c]
-        );
+        for (let combo of winningCombinations) {
+            if (gameBoard[combo[0]] && 
+                gameBoard[combo[0]] === gameBoard[combo[1]] && 
+                gameBoard[combo[0]] === gameBoard[combo[2]]) {
+                drawWinningLine(combo);
+                return true;
+            }
+        }
+        return false;
     }
 
     function restartGame() {
         gameBoard = ['', '', '', '', '', '', '', '', ''];
         gameOver = false;
         currentPlayer = player1;
-        document.querySelectorAll('.cell').forEach(cell => cell.innerText = '');
+        document.querySelectorAll('.cell').forEach(cell => {
+            cell.removeAttribute('data-symbol');
+            cell.classList.remove('winning-cell');
+        });
+        const existingLine = document.getElementById('winLine');
+        if (existingLine) existingLine.remove();
         updatePlayerDisplay();
     }
 
