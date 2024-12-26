@@ -52,3 +52,26 @@ h1 {
   transform: scale(1.05); /* Slightly enlarge the image on hover */
   box-shadow: 0 0 15px rgba(255, 255, 255, 0.5); /* Highlight effect */
 }
+
+@media (max-width: 768px) {
+  .game-options {
+      flex-direction: column; /* Stack game options vertically */
+      align-items: center; /* Center align items */
+  }
+
+  .game-image-container {
+      width: 100%; /* Full width for mobile */
+      margin-bottom: 20px; /* Space between game images */
+  }
+
+  .game-image {
+      width: 100%; /* Make the image responsive */
+      max-width: 300px; /* Set a max width to prevent zooming in too much */
+      height: auto; /* Maintain aspect ratio */
+      object-fit: contain; /* Ensure the image fits within the container */
+  }
+}
+
+.game-image:hover {
+  transform: scale(1); /* Prevent zooming on hover */
+}
